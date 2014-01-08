@@ -21,9 +21,8 @@
         CGFloat cardLocation = arg1.frame.origin.x;
         CGFloat switcherSize = cardWidth * (MSHookIvar<NSMutableArray *>(self, "_items")).count;
 
-        // Normalize note index: ceiling(lowestNote + ((currentLocation - minimumLocation) * ((highestNote - lowestNote)/(maximumLocation - minimumLocation))))
-        // ceilf(0 + ((cardLocation - 0.f) * ((7 - 0)/(switcherSize - 0.f))))
-        int noteIndex = ceilf(cardLocation * (7/switcherSize));
+        // Even better normalize note index. Mod it by 7 so the octave repeats itself.
+        int noteIndex = round(cardLocation) % 7;
         
         CFURLRef soundFileURLRef;
         soundFileURLRef = (CFURLRef)[NSURL URLWithString:[NSString stringWithFormat:@"/Library/MusicalSwitcher/note%i.m4a",  noteIndex]];
